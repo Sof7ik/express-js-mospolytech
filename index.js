@@ -58,7 +58,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(express.static(path.resolve(__dirname, "public")));
+app.use(express.static(path.resolve(__dirname, "public/")));
 
 // log every query
 app.use((req, res, next) => {

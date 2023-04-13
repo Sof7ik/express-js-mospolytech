@@ -1,25 +1,27 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const express = require("express");
+const router = express.Router();
 
-exports = {
-    getStats: function (req, res) {
-        fs.readFile( path.join(__dirname, "../../data/requests.json"), (err, requestsData) => {
-            if (err) {
-                throw err;
-            }
+// GET /v1/stats/
+router.get("/", (req, res) => {
+    fs.readFile( path.join(__dirname, "../../data/requests.json"), (err, requestsData) => {
+        if (err) {
+            throw err;
+        }
 
-            requestsData = Buffer.from(requestsData).toString();
+        requestsData = Buffer.from(requestsData).toString();
 
-            // console.log("readed from file", requestsData)
+        // console.log("readed from file", requestsData)
 
-            if (requestsData) {
-                requestsData = JSON.parse(requestsData);
-            }
-            else {
-                throw new Error("Ошибка при чтении из файла");
-            }
+        if (requestsData) {
+            requestsData = JSON.parse(requestsData);
+        }
+        else {
+            throw new Error("Ошибка при чтении из файла");
+        }
 
-            let HTMLTable = `
+        let HTMLTable = `
                         <meta charset="utf-8">
                         <style>
                             table tr td:first-child {
@@ -36,28 +38,26 @@ exports = {
                         
                             <tbody>`;
 
-            for (const userAgent in requestsData) {
-                const requestObject = requestsData[userAgent];
+        for (const userAgent in requestsData) {
+            const requestObject = requestsData[userAgent];
 
-                HTMLTable += `
+            HTMLTable += `
                     <tr>
                         <td>${requestObject["user-agent"]}</td>
                         <td>${requestObject.requests}</td>
                     </tr>
                     `
-            }
+        }
 
-            HTMLTable+= `
+        HTMLTable+= `
                         </tbody>
                     </table>
                     `;
 
-            res.header("Content-Type: text/html")
-                .status(200)
-                .send(HTMLTable)
-        })
-    },
+        res.header("Content-Type: text/html")
+            .status(200)
+            .send(HTMLTable)
+    })
+})
 
-};
-
-module.exports = exports;
+module.exports = router;
