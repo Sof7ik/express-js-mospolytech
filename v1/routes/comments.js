@@ -11,17 +11,38 @@ router.get("/", (req, res) => {
 
         const data = Buffer.from(content).toString();
         const comments = JSON.parse(data);
+
         const commentsToSend = JSON.stringify(comments);
 
         res.header("Content-Type: application/json")
             .status(200)
-            .send(commentsToSend)
+            .send(commentsToSend);
+    })
+})
+
+router.get("/:id", (req, res) => {
+    if (!req.params.id) {
+        res.status(400).send("No ID");
+    }
+
+    fs.readFile(path.join(__dirname, "../../data/comments.json"), (error, content) => {
+        if (error) {
+            throw error;
+        }
+
+        const data = Buffer.from(content).toString();
+        const comments = JSON.parse(data);
+
+        const commentToSend = comments.filter(commentObj => commentObj.id = req.params.id);
+
+        console.log(commentToSend)
+
+        res.status(200).json(commentToSend);
     })
 })
 
 router.post("/", (req, res) => {
-    let body = req.body;
-    const newComment = body;
+    const newComment = req.body;
 
     fs.readFile(path.join(__dirname, "../../data/comments.json"), (error, content) => {
         if (error) {
@@ -41,8 +62,6 @@ router.post("/", (req, res) => {
             if (err) {
                 throw err;
             }
-
-            //console.log("Файл записан");
         })
 
         res.status(201);
