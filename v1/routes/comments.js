@@ -35,8 +35,6 @@ router.get("/:id", (req, res) => {
 
         const commentToSend = comments.filter(commentObj => commentObj.id = req.params.id);
 
-        console.log(commentToSend)
-
         res.status(200).json(commentToSend);
     })
 })

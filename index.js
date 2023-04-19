@@ -16,11 +16,10 @@ app.use(express.static(path.resolve(__dirname, "public/")));
 
 // log every query
 app.use(morgan("dev"));
+app.use(helmet());
 
 // routers
 app.use("/v1", restV1);
-
-app.use(helmet);
 
 app.listen(port, "localhost", () => {
     console.log(`Server is running on localhost:${port}`);
