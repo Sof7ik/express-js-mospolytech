@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const restV1 = require("./v1/api");
+const restV2 = require("./v2/api");
 
 const port = process.env.PORT || 5500;
 
@@ -19,8 +20,7 @@ app.use(morgan("dev"));
 
 // routers
 app.use("/v1", restV1);
-
-app.use(helmet);
+app.use("/v2", restV2);
 
 app.listen(port, "localhost", () => {
     console.log(`Server is running on localhost:${port}`);
