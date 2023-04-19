@@ -17,6 +17,7 @@ app.use(express.static(path.resolve(__dirname, "public/")));
 
 // log every query
 app.use(morgan("dev"));
+app.use(helmet());
 
 // routers
 app.use("/v1", restV1);
