@@ -13,7 +13,7 @@ connectToMongoDB()
 async function insertComment(data) {
     try {
         const comments = db.collection("comments");
-        await comments.insertOne(data);
+        return await comments.insertOne(data);
     }
     catch (err) {
         throw err;

@@ -38,7 +38,7 @@ async function getApiKey(userName) {
 }
 async function deleteApiKey(apiKey) {
     try {
-        return await apiKeyCollection.findOneAndDelete({"api-key": apiKey});
+        return await apiKeyCollection.findOneAndDelete({"apiKey": apiKey});
     }
     catch (err) {
         throw err;

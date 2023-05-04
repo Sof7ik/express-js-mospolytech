@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  title: Three.js models API docs
+  version: 0.1.0
+  description: This is a simple CRUD API application made with Express and documented with Swagger,
+  license:
+    name: MIT
+    url: https://spdx.org/licenses/MIT.html
+  contact:
+    name: Leonid Bychkov,
+    url: https://t.me/sof7ik,
+    email: bychkov.l47@mail.ru
+  servers:
+   - url: "http://localhost:5500"
+  tags:
+    - name: "Api"
+      description: "Get, generate or delete your API token"
+    - name: "Models"
+      description: "Get all, get by id, add new, update or delete 3D models"
+    - name: "Comments",
+      description: "Get all, get by id or add new comment"
+
+components:
+  securitySchemes:
+    apikey:
+      type: apiKey
+      in: header
+      name: apikey
+
+paths:
+  /v3/login:
+    post:
+      tags: [Api]
+      summary: create apikey
+      description: create apikey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                userName:
+                  type: string
+              example:
+                userName: user-3
+      responses:
+        200:
+          description: Сгенерированный ключ API
+        400:
+          description: Не передано имя пользователя
+        500:
+          description: Внутренняя серверная ошибка
+  /v3/logout:
+    delete:
+      tags: [Api]
+      security:
+        - apikey: []
+      summary: Delete api key,
+      description: delete api key,
+      responses:
+        200:
+          description: API ключ удалён
+        401:
+          description: Не передан API ключ
+
+  /v3/models/:
+    get:
+      tags: [Models]
+      summary: Получить все модели
+      responses:
+        200:
+          description: Получен список моделей
+        500:
+          description: Внутренняя серверная ошибка
+    post:
+      tags: [Models]
+      summary: Добавить новую модель
+      description: Добавить новую модель
+      security:
+        - apikey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                userName:
+                  type: string
+                modelName:
+                  type: string
+                code:
+                  type: application/json
+                description:
+                  type: string
+                comments:
+                  type: array
+              example:
+                userName: user-2
+                modelName: my red cube swagger
+                code: {name: testName}
+      responses:
+        201:
+          description: Модель добавлена
+        400:
+          description: Не переданы обязательные поля
+        401:
+          description: Не передан API ключ
+        500:
+          description: Внутрення серверная ошибка
+  /v3/models/{id}:
+    get:
+      tags: [Models]
+      summary: Получить модель по ID
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: валидный ObjectId идентификатор
+      responses:
+        200:
+          description: Получена модель с указанным ID
+        400:
+          description: Не передан ID
+        500:
+          description: Внутренняя серверная ошибка
+    put:
+      tags: [ Models ]
+      summary: Обновить модель по ID
+      security:
+        - apikey: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                userName:
+                  type: string
+                modelName:
+                  type: string
+                code:
+                  type: application/json
+                description:
+                  type: string
+                comments:
+                  type: array
+              example:
+                userName: user-2
+                modelName: my red cube swagger
+                code: { name: testName }
+      responses:
+        200:
+          description: Запись обновлена
+        400:
+          description: Не валидный ID или не переданы данные о модели
+        401:
+          description: Не передан API ключ
+        500:
+          description: Внутренняя серверная проблема
+    delete:
+      tags: [ Models ]
+      summary: Удалить модель по ID
+      security:
+        - apikey: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: Модель удалена
+        400:
+          description: не передан ID
+        401:
+          description: Не передан API ключ
+        500:
+          description: Внутренняя серверная ошибка
+  /v3/comments:
+    get:
+      tags: [Comments]
+      summary: Получить все комментарии
+      responses:
+        200:
+          description: Получен список комментариев
+        500:
+          description: Внутренняя серверная ошибка
+    post:
+      tags: [Comments]
+      summary: Добавить новый комментарий
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: Имя пользователя-автора комментария
+                text:
+                  type: string
+                  description: Текст комментария
+              example:
+                name: "Пользователь 1"
+                text: "Текст комментария от пользователя 1"
+      responses:
+        201:
+          description: Комментарий добавлен, возвращается список всех комментариев
+        400:
+          description: Не переданы обязательные данные
+        500:
+          description: Внутренняя ошибка сервера
+  /v3/comments/{id}:
+    get:
+      tags: [Comments]
+      summary: Получить один комментарий по ID
+      parameters:
+        - in: path
+          name: id
+          type: string
+          description: валидный ObjectId индентификатор
+          required: true
+      responses:
+        200:
+          description: Возвращается найденный комментарий
+        400:
+          description: Не передан ID
+        404:
+          description: Не валидный ID
+        500:
+          description: внутренняя ошибка сервера

@@ -45,7 +45,7 @@ async function getModelById(req, res, next) {
     }
 
     try {
-        const model = await modelsService.getModelByID();
+        const model = await modelsService.getModelByID(modelId);
         res.send(model);
     }
     catch (err) {
@@ -74,6 +74,7 @@ async function addNewModel(req, res, next) {
         const insertRes = await modelsService.addNewModel(insertModelData);
 
         if (insertRes.insertedId) {
+            res.statusCode = 201;
             res.send(insertRes.insertedId);
         }
         else {
@@ -88,14 +89,15 @@ async function addNewModel(req, res, next) {
 }
 
 async function updateModel(req, res, next) {
-    if (!req.body.modelData) {
+    const modelData = req.body;
+
+    if (!modelData) {
         res.statusCode = 400;
-        const err = new Error("не передан modelData");
+        const err = new Error("не переданы данные о модели");
         next(err);
     }
 
-    const modelData = req.body.modelData;
-    const modelId = req.body.modelId;
+    const modelId = req.params.id;
 
     if (!modelId || !ObjectId.isValid(modelId)) {
         res.statusCode = 400;
@@ -114,14 +116,7 @@ async function updateModel(req, res, next) {
 
     try {
         const result = await modelsService.updateModel(modelId, insertModelData);
-
-        if (result.modifiedCount === 1) {
-            res.send(result);
-        }
-        else {
-            const err = new Error("Изменено больше одного элемента");
-            next(err);
-        }
+        res.send(result);
     }
     catch (err) {
         next(err);
@@ -148,6 +143,7 @@ async function deleteModelById(req, res, next) {
             error = new Error("Элемент не удалён");
         }
         if (error !== null) {
+            res.statusCode = 500
             next(error);
         }
 

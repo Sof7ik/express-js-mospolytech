@@ -16,7 +16,7 @@ connectToMongoDB()
 
 async function getAllModels() {
     try {
-        const models = await modelsCollection.find();
+        const models = await modelsCollection.find().project({modelName: 1, _id: 0});
         return models.toArray();
     }
     catch (err) {
@@ -26,7 +26,7 @@ async function getAllModels() {
 
 async function getModelByID(modelId) {
     try {
-        return modelsCollection.findOne({_id: new ObjectId(modelId)});
+        return await modelsCollection.findOne({_id: new ObjectId(modelId)});
     }
     catch (err) {
         throw err;

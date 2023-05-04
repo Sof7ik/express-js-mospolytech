@@ -13,6 +13,12 @@ async function getComments(req, res, next) {
 }
 
 async function getComment(req, res, next) {
+    if (!req.params.id) {
+        const err = new Error("Не передан ID");
+        res.statusCode = 400;
+        next(err);
+    }
+
     if (ObjectId.isValid(req.params.id)) {
         try {
             let comment = await commentsServices.findComment(req.params.id)
@@ -29,7 +35,7 @@ async function getComment(req, res, next) {
     }
 }
 
-function postComments(req, res, next) {
+async function postComments(req, res, next) {
     const { name, text } = req.body;
 
     if (!name || !text) {
@@ -46,15 +52,18 @@ function postComments(req, res, next) {
 
     const comment = {
         name, text,
-        date: dateToDb,
+        date: date,
     }
 
     try {
-        const insertRes = commentsServices.insertComment(comment);
+        const insertRes = await commentsServices.insertComment(comment);
 
         // добавление в БД успешно
         if (insertRes.insertedId) {
             getComments(req, res);
+        }
+        else {
+            throw new Error("Ошибка при добавлении в БД");
         }
     }
     catch (err) {
