@@ -37,6 +37,25 @@
 
         <div>
             <h2>v2</h2>
+            <p>Requires API key in request headers</p>
+            <p>Endpoints</p>
+            <ul>
+                <li><a href="/v2">"/v1/"</a></li>
+                <li><a href="/v2/comments/">"/v1/comments/"</a></li>
+            </ul>
+
+            <h3>"/v2/"</h3>
+            <p>Methods: GET</p>
+            <p>Response: text/plain</p>
+
+            <h3>"/v2/comments/"</h3>
+            <p>Methods: GET, POST</p>
+            <p>POST Request body:</p>
+            <ul>
+                <li>"title": string</li>
+                <li>"text": string</li>
+            </ul>
+            <p>POST Response: JSON</p>
         </div>
     </div>
 

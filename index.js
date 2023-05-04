@@ -2,13 +2,13 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 
-const fs = require("node:fs");
 const path = require("node:path");
 
-const restV1 = require("./v1/api");
-const restV2 = require("./v2/api");
+// const restV1 = require("./v1/api");
+// const restV2 = require("./v2/api");
+const restV3 = require("./v3/api");
 
-const port = process.env.PORT || 5500;
+const port = 5500;
 
 const app = express();
 
@@ -20,8 +20,9 @@ app.use(morgan("dev"));
 app.use(helmet());
 
 // routers
-app.use("/v1", restV1);
-app.use("/v2", restV2);
+// app.use("/v1", restV1);
+// app.use("/v2", restV2);
+app.use("/v3", restV3);
 
 app.listen(port, "localhost", () => {
     console.log(`Server is running on localhost:${port}`);
