@@ -7,9 +7,9 @@ info:
     name: MIT
     url: https://spdx.org/licenses/MIT.html
   contact:
-    name: Leonid Bychkov,
-    url: https://t.me/sof7ik,
-    email: bychkov.l47@mail.ru
+    name: "Leonid Bychkov",
+    url: "https://t.me/sof7ik",
+    email: "bychkov.l47@mail.ru"
   servers:
    - url: "http://localhost:5500"
   tags:
@@ -17,7 +17,7 @@ info:
       description: "Get, generate or delete your API token"
     - name: "Models"
       description: "Get all, get by id, add new, update or delete 3D models"
-    - name: "Comments",
+    - name: "Comments"
       description: "Get all, get by id or add new comment"
 
 components:
