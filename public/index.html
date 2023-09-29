@@ -6,47 +6,61 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./awsm.min.css">
+    <link rel="stylesheet" href="flex.css">
     <title>ExpressJS - Homepage</title>
 </head>
 <body>
     <h1>ExpressJS API</h1>
 
-    <p>Endpoints</p>
-    <ul>
-        <li><a href="/v1">"/v1/"</a></li>
-        <li><a href="/v1/stats/">/v1/stats/"</a></li>
-        <li><a href="/v1/comments/">"/v1/comments/"</a></li>
-    </ul>
+    <div class="flex-wrapper">
+        <div>
+            <h2>v1</h2>
+            <p>Endpoints</p>
+            <ul>
+                <li><a href="/v1">"/v1/"</a></li>
+                <li><a href="/v1/comments/">"/v1/comments/"</a></li>
+            </ul>
 
-    <h2>"/v1/"</h2>
-    <p>Only GET requests</p>
-    <pre>
-body: null,
-response: "Hello",
-content-type: text/plain
-    </pre>
+            <h3>"/v1/"</h3>
+            <p>Methods: GET</p>
+            <p>Response: text/plain</p>
 
-    <h2>"/v1/stats/"</h2>
-    <p>Only GET requests</p>
-    <pre>
-body: null,
-response: html table,
-content-type: text/html
-    </pre>
+            <h3>"/v1/comments/"</h3>
+            <p>Methods: GET, POST</p>
+            <p>POST Request body:</p>
+            <ul>
+                <li>"title": string</li>
+                <li>"text": string</li>
+            </ul>
+            <p>POST Response: JSON</p>
+        </div>
 
-    <h2>"/v1/comments/"</h2>
-    <p>GET, POST requests</p>
-    <pre>
-body:
-{
-    id: number,
-    user_id: number,
-    title: string,
-    body: string
-}
-request content-type: application/json
-response: JSON Object()
-response content-type: application/json
-    </pre>
+        <div>
+            <h2>v2</h2>
+            <p>Requires API key in request headers</p>
+            <p>Endpoints</p>
+            <ul>
+                <li><a href="/v2">"/v1/"</a></li>
+                <li><a href="/v2/comments/">"/v1/comments/"</a></li>
+            </ul>
+
+            <h3>"/v2/"</h3>
+            <p>Methods: GET</p>
+            <p>Response: text/plain</p>
+
+            <h3>"/v2/comments/"</h3>
+            <p>Methods: GET, POST</p>
+            <p>POST Request body:</p>
+            <ul>
+                <li>"title": string</li>
+                <li>"text": string</li>
+            </ul>
+            <p>POST Response: JSON</p>
+        </div>
+    </div>
+
+
+
+
 </body>
 </html>
